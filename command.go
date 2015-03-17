@@ -43,6 +43,11 @@ func (socket *IPCSocket) Command(action string) (success bool, err error) {
 		return
 	}
 
+	if len(cmdReply) == 0 {
+		success = true
+		return
+	}
+
 	success = cmdReply[0].Success
 	if cmdReply[0].Error == "" {
 		err = nil
