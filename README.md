@@ -8,16 +8,15 @@ i3ipc
 Overview
 --------
 i3ipc is a golang library for convenient access to the IPC API of the [i3 window
-manager](http://i3wm.org).
-
-Capabilities
-------------
-As of the time of writing, this library is able to access all functionality of
-the IPC API of i3. This includes sending commands and other message types, as
-well as handling subscriptions.
-
-If you just want a quick overview of the documentation, head to
+manager](http://i3wm.org). If you want to take a look at the documentation then head to
 [http://godoc.org/github.com/mdirkse/i3ipc/][doc].
+
+Compatibility
+-------------
+This library can be used with the i3 IPC as it is as of at least version [4.13](https://github.com/i3/i3/releases/tag/4.13). However, according to i3 maintainer @Airblader:
+> The IPC isn't versioned. It can change with every release and usually does in one way or another. We only try to avoid breaking changes to the documented values since we consider those stable, but with good enough reason even those can change.
+
+We'll do our best to make this library track the i3 IPC as closely as possible, but if you find anything missing (or broken) please file an issue or (even better) submit a pull request.
 
 Usage
 -----
