@@ -59,4 +59,8 @@ i3ipc currently has no way of subscribing to multiple event types over a single
 channel. If you want this, you can simply create multiple subscriptions, then
 demultiplex those channels yourself - `select` is your friend.
 
+Credits
+-------
+Many thanks to [proxypoke](https://github.com/proxypoke) for originally starting this project.
+
 [doc]: http://godoc.org/github.com/mdirkse/i3ipc/
