@@ -1,13 +1,13 @@
-[![GoDoc](https://godoc.org/github.com/mdirkse/i3ipc?status.svg)](http://godoc.org/github.com/mdirkse/i3ipc/)
-[![Build Status](https://travis-ci.org/mdirkse/i3ipc.svg?branch=master)](https://travis-ci.org/mdirkse/i3ipc)
-[![Go Report Card](https://goreportcard.com/badge/github.com/mdirkse/i3ipc)](https://goreportcard.com/report/github.com/mdirkse/i3ipc)
+[![GoDoc](https://godoc.org/github.com/mdirkse/i3ipc-go?status.svg)](http://godoc.org/github.com/mdirkse/i3ipc-go/)
+[![Build Status](https://travis-ci.org/mdirkse/i3ipc-go.svg?branch=master)](https://travis-ci.org/mdirkse/i3ipc-go)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mdirkse/i3ipc-go)](https://goreportcard.com/report/github.com/mdirkse/i3ipc-go)
 
 i3ipc
 =====
 
 Overview
 --------
-i3ipc is a golang library for convenient access to the IPC API of the [i3 window manager](http://i3wm.org). If you want to take a look at the documentation then head to [http://godoc.org/github.com/mdirkse/i3ipc/][doc].
+i3ipc is a golang library for convenient access to the IPC API of the [i3 window manager](http://i3wm.org). If you want to take a look at the documentation then head to [http://godoc.org/github.com/mdirkse/i3ipc-go/][doc].
 
 Compatibility
 -------------
@@ -50,4 +50,4 @@ Credits
 -------
 Many thanks to [proxypoke](https://github.com/proxypoke) for originally starting this project.
 
-[doc]: http://godoc.org/github.com/mdirkse/i3ipc/
+[doc]: http://godoc.org/github.com/mdirkse/i3ipc-go/
