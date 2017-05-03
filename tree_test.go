@@ -14,7 +14,7 @@ import (
 )
 
 func TestGetTree(t *testing.T) {
-	ipc, _ := GetIPCSocket()
+	ipc := getTestIPC(testMessages["tree"])
 
 	//root, err := GetTree(ipc)
 	_, err := ipc.GetTree()

@@ -17,7 +17,7 @@ import (
 )
 
 func TestGetVersion(t *testing.T) {
-	ipc, _ := GetIPCSocket()
+	ipc := getTestIPC(testMessages["version"])
 
 	_, err := ipc.GetVersion()
 	if err != nil {

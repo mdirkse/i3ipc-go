@@ -17,7 +17,7 @@ import (
 )
 
 func TestGetOutputs(t *testing.T) {
-	ipc, _ := GetIPCSocket()
+	ipc := getTestIPC(testMessages["outputs"])
 
 	//outputs, err := GetOutputs(ipc)
 	_, err := ipc.GetOutputs()

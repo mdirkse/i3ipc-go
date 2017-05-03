@@ -17,7 +17,7 @@ import (
 )
 
 func TestGetWorkspaces(t *testing.T) {
-	ipc, _ := GetIPCSocket()
+	ipc := getTestIPC(testMessages["workspaces"])
 
 	_, err := ipc.GetWorkspaces()
 	if err != nil {
