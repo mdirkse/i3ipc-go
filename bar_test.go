@@ -17,7 +17,7 @@ import (
 )
 
 func TestGetBarConfig(t *testing.T) {
-	ipc := GetTestIPC(testMessages["bar"])
+	ipc := getTestIPC(testMessages["bar"])
 
 	ids, err := ipc.GetBarIds()
 	if err != nil {

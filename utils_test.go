@@ -10,11 +10,18 @@ type i3Message struct {
 	payload     string
 }
 
-type TestRequestResponse struct {
+type testRequestResponse struct {
 	req, res i3Message
 }
 
-func GetTestIPC(data []TestRequestResponse) *IPCSocket {
+// Function creates 3 things:
+// - an in-memory network pipe
+// - a server that listens to it and is pre-programmed
+// - an IPCSocket that is configured to write the pipe
+//
+// This allows us to test the lib against a mocked i3 socket so
+// we don't have to actually be running i3 in order to run tests.
+func getTestIPC(data []testRequestResponse) *IPCSocket {
 	server, client := net.Pipe()
 
 	go func() {
@@ -23,6 +30,7 @@ func GetTestIPC(data []TestRequestResponse) *IPCSocket {
 		length := make([]byte, 4)
 		mType := make([]byte, 4)
 
+		// For every pre-programmed request/response pair we listen to the pipe and then respond
 		for _, trr := range data {
 			tmp = make([]byte, 256)
 			ipcMsg := make([]byte, 0)
@@ -46,8 +54,8 @@ func GetTestIPC(data []TestRequestResponse) *IPCSocket {
 	return ipc
 }
 
-// Test messages used in the various unit test
-var testMessages = map[string][]TestRequestResponse{
+// Test messages used in the various unit test. The source for most of the test JSON is: http://i3wm.org/docs/ipc.html
+var testMessages = map[string][]testRequestResponse{
 	"bar": {{
 		i3Message{I3GetBarConfig, ""},
 		i3Message{I3GetBarConfig, "[\"bar-bxuqzf\"]"},
