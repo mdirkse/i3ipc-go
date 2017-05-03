@@ -17,10 +17,7 @@ import (
 )
 
 func TestGetIPCSocket(t *testing.T) {
-	ipc, err := GetIPCSocket()
-	if err != nil {
-		t.Errorf("Failed to acquire the IPC socket: %v", err)
-	}
+	ipc := getTestIPC(testMessages[""])
 	ipc.Close()
 	if ipc.open {
 		t.Error("IPC socket appears open after closing.")
@@ -28,7 +25,7 @@ func TestGetIPCSocket(t *testing.T) {
 }
 
 func TestRaw(t *testing.T) {
-	ipc, _ := GetIPCSocket()
+	ipc := getTestIPC(testMessages["workspaces"])
 
 	_, err := ipc.Raw(I3GetWorkspaces, "")
 	if err != nil {

@@ -17,7 +17,7 @@ import (
 )
 
 func TestCommand(t *testing.T) {
-	ipc, _ := GetIPCSocket()
+	ipc := getTestIPC(testMessages["command"])
 	defer ipc.Close()
 
 	// `exec /bin/true` is a good NOP operation for testing
