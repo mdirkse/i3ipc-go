@@ -17,7 +17,9 @@ import (
 )
 
 func TestGetBarConfig(t *testing.T) {
-	ipc := getTestIPC(testMessages["bar"])
+	ipc, _ := GetIPCSocket()
+
+	go startTestIPCSocket(testMessages["bar"])
 
 	ids, err := ipc.GetBarIds()
 	if err != nil {

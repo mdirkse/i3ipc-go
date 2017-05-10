@@ -30,6 +30,8 @@ const (
 	_Headerlen = 14
 )
 
+var cs connSource = &socketConnSource{}
+
 // A Message from i3. Can either be a Reply or an Event.
 type Message struct {
 	Payload []byte
@@ -72,16 +74,14 @@ type IPCSocket struct {
 	subscribers []chan Event
 }
 
-// Close the connection to the underlying Unix socket.
-func (socket *IPCSocket) Close() error {
-	socket.open = false
-	return socket.socket.Close()
+type connSource interface {
+	newConn() (net.Conn, error)
 }
+type socketConnSource struct{}
 
-// GetIPCSocket creates a new IPC socket.
-func GetIPCSocket() (ipc *IPCSocket, err error) {
+// The default socket factory gets the socket via i3
+func (dsf *socketConnSource) newConn() (conn net.Conn, err error) {
 	var out bytes.Buffer
-	ipc = &IPCSocket{}
 
 	cmd := exec.Command("i3", "--get-socketpath")
 	cmd.Stdout = &out
@@ -91,7 +91,20 @@ func GetIPCSocket() (ipc *IPCSocket, err error) {
 	}
 
 	path := strings.TrimSpace(out.String())
-	sock, err := net.Dial("unix", path)
+	conn, err = net.Dial("unix", path)
+	return
+}
+
+// Close the connection to the underlying Unix socket.
+func (socket *IPCSocket) Close() error {
+	socket.open = false
+	return socket.socket.Close()
+}
+
+// GetIPCSocket creates a new IPC socket.
+func GetIPCSocket() (ipc *IPCSocket, err error) {
+	ipc = &IPCSocket{}
+	sock, err := cs.newConn()
 	ipc.socket = sock
 	ipc.open = true
 	return

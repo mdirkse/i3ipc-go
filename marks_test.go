@@ -17,7 +17,9 @@ import (
 )
 
 func TestGetMarks(t *testing.T) {
-	ipc := getTestIPC(testMessages["marks"])
+	ipc, _ := GetIPCSocket()
+
+	go startTestIPCSocket(testMessages["marks"])
 
 	_, err := ipc.GetMarks()
 	if err != nil {

@@ -17,7 +17,16 @@ import (
 )
 
 // TODO: fix this test
-func Init(t *testing.T) {
+func TestInit(t *testing.T) {
+	// Because StartEventListener sends events to the socket we have to start
+	// the test socket before calling it. In other tests we can first call
+	// GetIPCSocket(), get the socket, and then start the server end of the socket
+	// with startTestIPCSocket to be sure that the test socket is created
+	// (newConn being called) before something is written to it. Here we don't have
+	// that assurance, we're relying on timing, which is kind of terrible, but seems
+	// to work. Should refactor this to be provably correct though.
+	go startTestIPCSocket(testMessages["subscribe"])
+
 	StartEventListener()
 
 	for _, s := range eventSockets {
