@@ -17,7 +17,8 @@ import (
 )
 
 func TestGetIPCSocket(t *testing.T) {
-	ipc := getTestIPC(testMessages[""])
+	startTestIPCSocket(testMessages[""])
+	ipc, _ := GetIPCSocket()
 	ipc.Close()
 	if ipc.open {
 		t.Error("IPC socket appears open after closing.")
@@ -25,7 +26,9 @@ func TestGetIPCSocket(t *testing.T) {
 }
 
 func TestRaw(t *testing.T) {
-	ipc := getTestIPC(testMessages["workspaces"])
+	ipc, _ := GetIPCSocket()
+
+	go startTestIPCSocket(testMessages["workspaces"])
 
 	_, err := ipc.Raw(I3GetWorkspaces, "")
 	if err != nil {
