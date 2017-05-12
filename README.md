@@ -1,6 +1,7 @@
 [![GoDoc](https://godoc.org/github.com/mdirkse/i3ipc-go?status.svg)](http://godoc.org/github.com/mdirkse/i3ipc-go/)
 [![Build Status](https://travis-ci.org/mdirkse/i3ipc-go.svg?branch=master)](https://travis-ci.org/mdirkse/i3ipc-go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mdirkse/i3ipc-go)](https://goreportcard.com/report/github.com/mdirkse/i3ipc-go)
+[![codecov](https://codecov.io/gh/mdirkse/i3ipc-go/branch/master/graph/badge.svg)](https://codecov.io/gh/mdirkse/i3ipc-go)
 
 i3ipc
 =====
