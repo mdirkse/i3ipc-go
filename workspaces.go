@@ -23,9 +23,9 @@ type Workspace struct {
 	Name    string
 	Visible bool
 	Focused bool
+	Urgent  bool
 	Rect    Rect
 	Output  string
-	Urgent  bool
 }
 
 // Rect represents the geometry of a window, output or workspace.

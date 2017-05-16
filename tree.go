@@ -21,12 +21,15 @@ import (
 type I3Node struct {
 	ID                 int32
 	Name               string
+	Type               string
 	Border             string
-	CurrentBorderWidth int32
+	CurrentBorderWidth int32 `json:"current_border_width"`
 	Layout             string
+	Orientation        string
 	Percent            float64
 	Rect               Rect
 	WindowRect         Rect
+	DecoRect           Rect `json:"deco_rect"`
 	Geometry           Rect
 	Window             int32
 	Urgent             bool

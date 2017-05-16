@@ -19,21 +19,40 @@ import (
 // I3Bar represents the configuration of a bar. For documentation of the
 // fields, refer to http://i3wm.org/docs/ipc.html#_bar_config_reply.
 type I3Bar struct {
-	ID               string
-	Mode             string
-	Position         string
-	StatusCommand    string
-	Font             string
-	WorkspaceButtons bool
-	Verbose          bool
-	Colors           Colors
+	ID                   string
+	Mode                 string
+	Position             string
+	StatusCommand        string `json:"status_command"`
+	Font                 string
+	WorkspaceButtons     bool `json:"workspace_buttons"`
+	BindingModeIndicator bool `json:"binding_mode_indicator"`
+	Verbose              bool
+	Colors               Colors
 }
 
 // Colors represents colors as used in I3Bar.
 type Colors struct {
-	FocusedWorkspaceBorder string
-	FocusedWorkspaceBg     string
-	FocusedWorkspaceText   string
+	Background              string
+	Statusline              string
+	Separator               string
+	FocusedBackground       string `json:"focused_background"`
+	FocusedStatusline       string `json:"focused_statusline"`
+	FocusedSeparator        string `json:"focused_separator"`
+	FocusedWorkspaceBg      string `json:"focused_workspace_bg"`
+	FocusedWorkspaceBorder  string `json:"focused_workspace_border"`
+	FocusedWorkspaceText    string `json:"focused_workspace_text"`
+	ActiveWorkspaceBg       string `json:"active_workspace_bg"`
+	ActiveWorkspaceBorder   string `json:"active_workspace_border"`
+	ActiveWorkspaceText     string `json:"active_workspace_text"`
+	InactiveWorkspaceBg     string `json:"inactive_workspace_bg"`
+	InactiveWorkspaceBorder string `json:"inactive_workspace_border"`
+	InactiveWorkspaceText   string `json:"inactive_workspace_text"`
+	UrgentWorkspaceBg       string `json:"urgent_workspace_bg"`
+	UrgentWorkspaceBorder   string `json:"urgent_workspace_border"`
+	UrgentWorkspaceText     string `json:"urgent_workspace_text"`
+	BindingModeBg           string `json:"binding_mode_bg"`
+	BindingModeBorder       string `json:"binding_mode_border"`
+	BindingModeText         string `json:"binding_mode_text"`
 }
 
 // GetBarIds fetches a list of IDs for all configured bars.

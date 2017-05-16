@@ -18,9 +18,8 @@ import (
 type Output struct {
 	Name             string
 	Active           bool
+	CurrentWorkspace string `json:"current_workspace"`
 	Rect             Rect
-	CurrentWorkspace string
-	//Primary        bool
 }
 
 // GetOutputs fetches the list of current outputs.

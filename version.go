@@ -22,8 +22,8 @@ type I3Version struct {
 	Major                int32
 	Minor                int32
 	Patch                int32
-	HumanReadable        string
-	LoadedConfigFileName string
+	HumanReadable        string `json:"human_readable"`
+	LoadedConfigFileName string `json:"loaded_config_file_name"`
 }
 
 // GetVersion fetches the version of i3.

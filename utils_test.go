@@ -98,6 +98,18 @@ var testMessages = map[string][]testRequestResponse{
 			i3Message{I3Subscribe, ""},
 			i3Message{I3Subscribe, "{ \"success\": true }"},
 		},
+		{
+			i3Message{I3Subscribe, ""},
+			i3Message{I3Subscribe, "{ \"success\": true }"},
+		},
+		{
+			i3Message{I3Subscribe, ""},
+			i3Message{I3Subscribe, "{ \"success\": true }"},
+		},
+		{
+			i3Message{I3Subscribe, ""},
+			i3Message{I3Subscribe, "{ \"success\": true }"},
+		},
 	},
 	"tree": {{
 		i3Message{I3GetTree, ""},
