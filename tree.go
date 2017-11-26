@@ -19,7 +19,8 @@ import (
 // I3Node represents a Node in the i3 tree. For documentation of the fields,
 // refer to http://i3wm.org/docs/ipc.html#_tree_reply.
 type I3Node struct {
-	ID                 int32
+	//int32 isn't large enough to hold all the ids
+	ID                 int64
 	Name               string
 	Type               string
 	Border             string
