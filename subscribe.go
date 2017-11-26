@@ -56,6 +56,8 @@ type Event struct {
 	// Details contains the information as passed by i3. It needs to be converted to the
 	// corresponding specific struct with say Event.Details.(WorkspaceEvent)
 	Details interface{}
+	//Deprecated, use the field in the Details struct
+	Change string
 }
 
 //BaseEvent is used if no specific Event is known
@@ -141,35 +143,43 @@ func Subscribe(eventType EventType) (subs chan Event, err error) {
 	return
 }
 
-//addDetails parses the event based on it's type and adds the parsed information to the event
+//addDetails parses the event based on it's type and adds the parsed information to the event.
+// To avoid breaking the old API, the 'Change' field is added to the Event itself
 func addDetails(e *Event, raw []byte) {
 	var err error
+	var change string
 	switch e.Type {
 	case I3WorkspaceEvent:
 		var d WorkspaceEvent
 		err = json.Unmarshal(raw, &d)
 		e.Details = d
+		change = d.Change
 	case I3ModeEvent:
 		var d ModeEvent
 		err = json.Unmarshal(raw, &d)
 		e.Details = d
+		change = d.Change
 	case I3WindowEvent:
 		var d WindowEvent
 		err = json.Unmarshal(raw, &d)
 		e.Details = d
+		change = d.Change
 	case I3BindingEvent:
 		var d BindingEvent
 		err = json.Unmarshal(raw, &d)
 		e.Details = d
+		change = d.Change
 	default:
 		var d BaseEvent
 		err = json.Unmarshal(raw, &d)
 		e.Details = d
+		change = d.Change
 	}
 	//TODO: proper error handling
 	if err != nil {
 		log.Fatal(err)
 	}
+	e.Change = change
 }
 
 // Listen for events on this socket, multiplexing them to all subscribers.
