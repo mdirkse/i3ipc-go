@@ -53,9 +53,48 @@ func AddEventType(name string) (eventType EventType) {
 // Event describes an event reply from i3.
 type Event struct {
 	Type EventType
-	// "change" is the name of the single field of the JSON map that i3 sends
-	// when an event occurs, describing what happened.
+	// Details contains the information as passed by i3. It needs to be converted to the
+	// corresponding specific struct with say Event.Details.(WorkspaceEvent)
+	Details interface{}
+}
+
+//BaseEvent is used if no specific Event is known
+type BaseEvent struct {
 	Change string
+}
+
+// WorkspaceEvent as described in https://i3wm.org/docs/ipc.html#_workspace_event
+type WorkspaceEvent struct {
+	Change  string
+	Current I3Node
+	Old     I3Node
+}
+
+//ModeEvent as described in https://i3wm.org/docs/ipc.html#_output_event
+type ModeEvent struct {
+	Change      string
+	PangoMarkup bool
+}
+
+//WindowEvent as described in https://i3wm.org/docs/ipc.html#_window_event
+type WindowEvent struct {
+	Change    string
+	Container I3Node
+}
+
+type Binding struct {
+	Command        string
+	EventStateMask []string
+	InputCode      int
+	//TODO: Symbol can be null, might panic?
+	Symbol    string
+	InputType string
+}
+
+//BindingEvent as described in https://i3wm.org/docs/ipc.html#_binding_event
+type BindingEvent struct {
+	Change  string
+	Binding Binding
 }
 
 // Struct for replies from subscribe messages.
@@ -102,6 +141,37 @@ func Subscribe(eventType EventType) (subs chan Event, err error) {
 	return
 }
 
+//addDetails parses the event based on it's type and adds the parsed information to the event
+func addDetails(e *Event, raw []byte) {
+	var err error
+	switch e.Type {
+	case I3WorkspaceEvent:
+		var d WorkspaceEvent
+		err = json.Unmarshal(raw, &d)
+		e.Details = d
+	case I3ModeEvent:
+		var d ModeEvent
+		err = json.Unmarshal(raw, &d)
+		e.Details = d
+	case I3WindowEvent:
+		var d WindowEvent
+		err = json.Unmarshal(raw, &d)
+		e.Details = d
+	case I3BindingEvent:
+		var d BindingEvent
+		err = json.Unmarshal(raw, &d)
+		e.Details = d
+	default:
+		var d BaseEvent
+		err = json.Unmarshal(raw, &d)
+		e.Details = d
+	}
+	//TODO: proper error handling
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
 // Listen for events on this socket, multiplexing them to all subscribers.
 //
 // XXX: This will cause all messages which are not events to be DROPPED.
@@ -122,7 +192,7 @@ func (socket *IPCSocket) listen() {
 
 		var event Event
 		event.Type = EventType(msg.Type)
-		json.Unmarshal(msg.Payload, &event)
+		addDetails(&event, msg.Payload)
 
 		// Send each subscriber the event in a nonblocking manner.
 		for _, subscriber := range socket.subscribers {
