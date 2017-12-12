@@ -78,7 +78,7 @@ func (socket *IPCSocket) GetTree() (root I3Node, err error) {
 
 	defer setParent(&root, nil)
 
-	err = json.Unmarshal(json_reply, &root)
+	err = json.Unmarshal(jsonReply, &root)
 	if err == nil {
 		return
 	}

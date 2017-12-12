@@ -79,12 +79,12 @@ func (self *I3Node) FindFocused() *I3Node {
 }
 
 // Returns a node that has given id.
-func (self *I3Node) FindByID(id int32) *I3Node {
+func (self *I3Node) FindByID(ID int64) *I3Node {
 
 	nodes := self.Descendents()
 
 	for i := range nodes {
-		if nodes[i].Id == id {
+		if nodes[i].ID == ID {
 			return nodes[i]
 		}
 	}
