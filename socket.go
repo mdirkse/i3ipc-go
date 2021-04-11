@@ -16,6 +16,7 @@ import (
 	"bytes"
 	"fmt"
 	"net"
+	"os"
 	"os/exec"
 	"strings"
 	"unsafe"
@@ -79,19 +80,38 @@ type connSource interface {
 }
 type socketConnSource struct{}
 
-// The default socket factory gets the socket via i3
+// The default socket factory gets the socket via I3SOCK environment variable,
+// or i3 utility.
 func (dsf *socketConnSource) newConn() (conn net.Conn, err error) {
-	var out bytes.Buffer
-
-	cmd := exec.Command("i3", "--get-socketpath")
-	cmd.Stdout = &out
-	err = cmd.Run()
-	if err != nil {
-		return
+	// Check for socket paths in i3 & sway environment variables.
+	envNames := []string{"I3SOCK", "SWAYSOCK"}
+	for _, envName := range envNames {
+		path := strings.TrimSpace(os.Getenv(envName))
+		if len(path) > 0 {
+			conn, err = net.Dial("unix", path)
+			if err == nil {
+				return
+			}
+		}
 	}
 
-	path := strings.TrimSpace(out.String())
-	conn, err = net.Dial("unix", path)
+	// Ask i3 & sway binaries for socket path, but check i3 last so the
+	// error message returned is consistant.
+	binNames := []string{"sway", "i3"}
+	for _, binName := range binNames {
+		var out bytes.Buffer
+		cmd := exec.Command(binName, "--get-socketpath")
+		cmd.Stdout = &out
+		err = cmd.Run()
+		if err != nil {
+			continue
+		}
+		path := strings.TrimSpace(out.String())
+		conn, err = net.Dial("unix", path)
+		if err == nil {
+			return
+		}
+	}
 	return
 }
 
